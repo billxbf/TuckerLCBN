@@ -1,0 +1,329 @@
+/**
+\mainpage 
+
+\section install_sec Installation
+
+This package uses <a href="https://cmake.org/runningcmake">CMake</a>.
+To build the code, follow these instructions.
+-# Create a build directory \n
+   <tt>mkdir build</tt>
+-# Go into the build directory \n
+   <tt>cd build</tt>
+-# Use CMake to create the Makefiles \n
+   <tt>cmake [path to src]</tt>
+-# Use make to build the executables \n
+   <tt>make</tt> \n
+   You may use parallel make to build faster if you wish 
+   (<tt>make -j[num threads]</tt>), but the code should not take long
+   to build anyway.
+   
+Depending on the configuration of the machine you are using, you may
+have to specify additional arguments to CMake.
+
+\subsection cmake_sec Additional CMake arguments
+
+- CMAKE_C_COMPILER: Useful if you have multiple C compilers installed, and CMake fails
+  to detect the correct one. \n
+  USAGE: <tt>cmake -DCMAKE_C_COMPILER=/path/to/gcc [path to src]</tt>
+- CMAKE_CXX_COMPILER: Similar to CMAKE_C_COMPILER, but for C++
+- CMAKE_BUILD_TYPE: Determines whether debug or optimization flags get passed to the
+  compiler. \n
+  USAGE: <tt>cmake -DCMAKE_BUILD_TYPE=DEBUG [path to src]</tt> \n
+  or <tt>cmake -DCMAKE_BUILD_TYPE=RELEASE [path to src]</tt> 
+
+\subsection rhea_sec Installation on RHEA
+
+To build the code on the OLCF machine 
+<a href="https://www.olcf.ornl.gov/support/system-user-guides/rhea-user-guide">RHEA</a>, 
+please follow these instructions.
+-# Load appropriate CMake and gcc modules \n
+   <tt>module load cmake/3.5.2 \n
+   module load gcc/4.8.2</tt>
+-# Use CMake to create the Makefiles \n
+   <tt>cmake [path to src] -DCMAKE_C_COMPILER=mpicc -DCMAKE_CXX_COMPILER=mpiCC</tt>
+-# Use make to build the executables \n
+   <tt>make</tt> \n
+   
+When running your code, please ensure that you load the same gcc module 
+(<tt>gcc/4.8.2</tt>) in your script; otherwise, you will get an error.
+   
+\section test_sec Testing
+
+%TuckerMPI comes with a collection of tests.  To run the test suite, simply type 
+<tt>ctest</tt> in your root build directory.
+
+\subsection serial_test_sec Running only the serial tests
+-# Go into your build directory \n
+   <tt>cd build</tt>
+-# Go into the serial directory \n
+   <tt>cd serial</tt>
+-# Run the tests using ctest \n
+   <tt>ctest</tt>
+   
+\subsection small_test_sec Running only the "small" tests
+
+Some of the tests use 24 MPI processes, which may be impractical on 
+your machine.  If you would like to exclude all tests which use more
+than 4 MPI processes, use the command \n
+<tt>ctest -LE ManyProcs</tt>
+
+\section driver_sec TuckerMPI drivers
+
+%TuckerMPI comes with two MPI drivers, one for compression, and the other
+for reconstruction.  They can be found in the <tt>src/mpi/drivers</tt>
+directory.
+
+\subsection sthosvd_sec Compression driver
+
+This driver uses ST-HOSVD to perform a %Tucker decomposition on your
+input data.  The input data is expected to be in one or more binary
+files.  If the data is stored across multiple files, we expect your last
+mode to be time, and each file to contain an individual timestep from
+your simulation.  In either case, the data must be stored such that
+the mode-0 tensor unfolding would be column major, i.e. the first index
+increases the most rapidly, and the last index increases the least
+rapidly.
+
+To use the ST-HOSVD driver, please type the command \n
+<tt>mpirun -n [# procs] 
+[path_to_build]/mpi/drivers/sthosvd --parameter-file [path to 
+parameter file]</tt>
+
+The parameter file contains a list of options, some of which are optional,
+and others which are mandatory.  Mandatory parameters include the global
+tensor size, the MPI processor grid dimensions, and the criteria
+determining the size of the core tensor.  You can either set the maximum
+allowable error via the SV Threshold parameter, or you may fix the size
+of the computed core tensor by setting the Ranks parameter.  You may
+choose to scale your data along a given mode.  We provide several options
+for this scaling: Max divides each entry by the maximum magnitude entry
+in that mode, MinMax scales and shifts so that all entries
+are in the range [0,1], and StandardCentering subtracts the mean from each
+entry and divides by the standard deviation.
+
+The output produced by the ST-HOSVD driver includes the size of the core
+tensor, the core tensor, the factor matrices, the eigenvalues computed
+at each step of ST-HOSVD, the memory usage of the code, and the runtime
+of each stage of the code.  A MATLAB script which interprets these runtime
+results can be found in the matlab directory.
+
+The currently supported parameters are documented in the following table.
+
+<table>
+<caption id="param_table">%Tucker Parameters</caption>
+<tr><th>Name</th><th>Type</th><th>Description</th><th>Default value</th></tr>
+<tr><td>Global dims</td><td>List of integers separated by spaces</td><td>Global dimensions of the data tensor</td><td>REQUIRED PARAMETER</td></tr>
+<tr><td>Grid dims</td><td>List of integers separated by spaces</td><td>Global dimensions of the processor grid</td><td>REQUIRED PARAMETER</td></tr>
+<tr><td>Automatic rank determination</td><td>Boolean</td><td>If true, automatically determine rank; otherwise, use the user-defined ranks</td><td>false</td></tr>
+<tr><td>SV Threshold</td><td>Double</td><td>Used for automatic rank determination; the desired error rate</td><td>1e-5</td></tr>
+<tr><td>Ranks</td><td>List of integers separated by spaces</td><td>Global dimensions of the desired core tensor.  \n(Not used if "Automatic rank determination" is enabled)</td><td>NONE</td></tr>
+<tr><td>Input file list</td><td>String</td><td>List of filenames of raw data to be read</td><td>raw.txt</td></tr>
+<tr><td>Scaling type</td><td>String</td><td>How to scale the tensor\nOptions: Max, MinMax, StandardCentering, None</td><td>None</td></tr>
+<tr><td>Scale mode</td><td>Integer</td><td>Which mode's hyperslices will be scaled</td><td>nd-1, the last mode</td></tr>
+<tr><td>STD Threshold</td><td>Double</td><td>Threshold for standard deviation before we simply set it to 1\n Used in StandardCentering scaling</td><td>1e-9</td></tr>
+<tr><td>Perform STHOSVD</td><td>Boolean</td><td>If true, perform ST-HOSVD</td><td>false</td></tr>
+<tr><td>Use old Gram</td><td>Boolean</td><td>If true, use the old Gram algorithm; otherwise use the new one</td><td>false</td></tr>
+<tr><td>Stats file</td><td>String</td><td>Location of statistics file containing max, min, mean, and std of each hyperslice</td><td>stats.txt</td></tr>
+<tr><td>Write preprocessed data</td><td>Boolean</td><td>If true, write the preprocessed data to a file</td><td>false</td></tr>
+<tr><td>Preprocessed output file list</td><td>String</td><td>File containing a list of filenames to output the clean data into</td><td>pre.txt</td></tr>
+<tr><td>Write STHOSVD result</td><td>Boolean</td><td>If true, record the result of ST-HOSVD (the core tensor and all factors)</td><td>false</td></tr>
+<tr><td>STHOSVD directory</td><td>String</td><td>Directory location of STHOSVD output files</td><td>compressed</td></tr>
+<tr><td>STHOSVD file prefix</td><td>String</td><td>Base name of STHOSVD output files</td><td>sthosvd</td></tr>
+<tr><td>SV directory</td><td>String</td><td>Directory to place singular value check information into</td><td>.</td></tr>
+<tr><td>SV file prefix</td><td>String</td><td>Base name for writing the singular value files</td><td>sv</td></tr>
+<tr><td>Timing file</td><td>String</td><td>Name of the CSV file holding the timing results</td><td>runtime.csv</td></tr>
+<tr><td>Reconstruct tensor</td><td>Boolean</td><td>If true, reconstruct an approximation of the original tensor after ST-HOSVD</td><td>false</td></tr>
+<tr><td>Print options</td><td>Boolean</td><td>If true, print the options described in this table</td><td>false</td></tr>
+</table>
+
+\subsubsection ex_sec Example
+
+Here is an example of how to use the ST-HOSVD driver.  I first create a file telling the code where to find
+my tensor data.  I will call this file raw.txt, and it contains the names of the files storing each individual
+timestep.
+
+<tt>timestep1.mpi \n
+timestep2.mpi \n
+timestep3.mpi \n
+timestep4.mpi \n
+...</tt>
+
+If I had instead stored my tensor in a single file, my raw.txt might look like this:
+
+<tt>tensor.mpi</tt>
+
+Since I want to perform ST-HOSVD, I create a directory called compressed to store the results.  If I do not
+create this directory, the driver will fail to write the compressed data to disk.
+
+I then generate my parameter file, which I will call paramfile.txt.  It contains the following
+
+<tt>
+Global dims = 500 500 500 11 400 \n
+Grid dims = 10 10 10 1 1 \n
+Automatic rank determination = true \n
+SV Threshold = 1e-2 \n
+Input file list = raw.txt \n
+Scaling mode = Max \n
+Scale mode = 3 \n
+Perform STHOSVD = true \n
+Write STHOSVD result = true \n
+STHOSVD directory = compressed \n
+STHOSVD file prefix = sthosvd \n
+SV directory = . \n
+SV file prefix = sv \n
+Timing file = runtime.csv \n
+Print options = true
+</tt>
+
+The first line declares that my tensor is 500x500x500x11x400.  My first three modes represent the x,y,z dimensions,
+the next represents the 11 variables I measured in my simulation, and the last states that I have 400 timesteps.
+(Your modes do not have to represent the same data; this is just an example.)  
+
+The next line defines a processor
+grid for 1000 processors; each MPI process will own a 50x50x50x11x400 chunk of the original data.  When you define
+a processor grid, please be mindful of how much memory this driver requires.  Each MPI process will own roughly
+4 GB of tensor data in this example.  The ST-HOSVD driver requires roughly 3x as much memory as the size of the
+tensor.  So each MPI process should have roughly 12 GB of RAM.  If I am running this program on a machine with
+64 GB of RAM per node, and I'm using 12 MPI processes per node, the program will run out of memory and crash.
+
+The third and fourth lines determine the size of the core tensor of our factorization.  It will be determined
+automatically, and our desired error is 1e-2; the number of discarded eigenpairs will be based on that error.
+
+The binary data filenames are contained in raw.txt, the file we defined at the beginning of this example.
+Technically this line is unnecessary, since this value defaults to raw.txt anyway, but we have provided it for
+clarity.
+
+Lines six and seven determine how the tensor data is scaled.  We have elected to scale along mode 3, which has
+a dimension of 11 in our example.  (Numbering starts at 0.)  The code will compute the maximum magnitude entry
+for each of the 11 variables and will scale each variable accordingly so all entries are at most magnitude 1.
+
+Line eight states that we will be performing ST-HOSVD.  Lines nine through eleven determine where the compressed
+tensor will be written.  It will be output to a directory called compressed, and the generated files will be named
+sthosvd_ranks.txt, sthosvd_core.mpi, sthosvd_mat_0.mpi, sthosvd_mat_1.mpi, sthosvd_mat_2.mpi, sthosvd_mat_3.mpi,
+and sthosvd_mat_4.mpi.  The ranks file will contain the dimension of each mode of the compressed tensor.  The
+core binary file contains the core tensor.  The mat files contain the factor matrices.
+
+Lines twelve and thirteen determine where the eigenvalues of the Gram matrices are written.  The code will create
+the following files: sv_mode_0.txt, sv_mode_1.txt, sv_mode_2.txt, sv_mode_3.txt, and sv_mode_4.txt.
+
+Line fourteen dictates that the runtime information will be written to a file called runtime.csv.  This file
+is mainly for developer use, but you may use the included MATLAB script to parse it if you wish.  It will create
+a series of plots describing where the code spent its runtime across all the MPI processes.  It is a more detailed
+version of the table output at the end of the program, an example of which is below.
+
+<tt>
+\verbatim
+           Timing results for 32 MPI processes 
+Timer             Min          Max          Mean 
+-------------------------------------------------------- 
+Gram(0)         : 1.07936e+00 1.07964e+00 1.07950e+00 
+ local multiply : 4.09038e-01 1.02963e+00 7.63705e-01 
+ all-reduce     : 1.36933e-03 6.37658e-01 2.72858e-01 
+ all-to-all     : 1.91918e-02 2.91569e-02 2.49512e-02 
+ unpacking      : 9.33422e-03 2.27129e-02 1.74272e-02 
+Eigensolve(0)   : 6.04887e-02 1.10326e-01 8.58809e-02 
+TTM(0)          : 6.53661e-01 7.41933e-01 6.89854e-01 
+ local multiply : 3.70816e-01 6.24523e-01 4.88350e-01 
+ reduce         : 4.71871e-02 3.10157e-01 1.76618e-01 
+ 
+Gram(1)         : 1.54704e+00 1.58851e+00 1.57515e+00 
+ local multiply : 7.09655e-01 1.53188e+00 1.23061e+00 
+ all-reduce     : 4.74299e-03 8.12449e-01 2.98694e-01 
+ packing        : 5.61365e-03 1.31914e-02 9.06352e-03 
+ all-to-all     : 1.01145e-02 5.82350e-02 3.26728e-02 
+ unpacking      : 2.53270e-03 5.79000e-03 3.98176e-03 
+Eigensolve(1)   : 4.41615e-01 8.14520e-01 6.28025e-01 
+TTM(1)          : 8.90508e-01 1.27341e+00 1.08412e+00 
+ local multiply : 4.36963e-01 8.72887e-01 6.63476e-01 
+ reduce         : 1.90874e-02 4.57172e-01 2.33824e-01 
+ 
+Gram(2)         : 3.77850e-01 3.91931e-01 3.83017e-01 
+ local multiply : 2.65712e-01 3.68253e-01 3.19752e-01 
+ all-reduce     : 4.23873e-03 1.11556e-01 5.36724e-02 
+ packing        : 9.06345e-04 5.23929e-03 2.74643e-03 
+ all-to-all     : 2.65136e-03 1.83407e-02 6.81676e-03 
+Eigensolve(2)   : 4.39876e-01 8.08700e-01 6.25451e-01 
+TTM(2)          : 3.35170e-01 7.30385e-01 5.08262e-01 
+ local multiply : 2.46695e-01 3.58267e-01 3.01491e-01 
+ packing        : 8.38000e-07 8.38100e-06 1.67394e-06 
+ reduce-scatter : 2.66756e-03 1.11281e-01 2.32097e-02 
+ 
+Total           : 6.58926e+00 6.69608e+00 6.65938e+00
+\endverbatim
+</tt>
+
+Line fifteen tells the driver to print the parameters for your run of ST-HOSVD.
+
+\subsection reconstruction_sec Reconstruction driver
+
+For your convenience, we have provided a driver which reconstructs an approximation of your original tensor
+from a factorization generated by the ST-HOSVD driver.  If you only want to recompute a small portion of the
+original tensor, we provide that option as well; the user may specify a contiguous set of subscripts, and only
+the data corresponding to those subscripts will be computed.  Like the ST-HOSVD driver, the user may specify a 
+variety of options, defined in the table below.
+
+<table>
+<caption id="param_table">%Tucker Parameters</caption>
+<tr><th>Name</th><th>Type</th><th>Description</th><th>Default value</th></tr>
+<tr><td>Global dims</td><td>List of integers separated by spaces</td><td>Global dimensions of the original tensor</td><td>REQUIRED PARAMETER</td></tr>
+<tr><td>Grid dims</td><td>List of integers separated by spaces</td><td>Global dimensions of the processor grid</td><td>REQUIRED PARAMETER</td></tr>
+<tr><td>Beginning subscripts</td><td>List of integers separated by spaces</td><td>Start of subscripts to be recomputed</td><td>REQUIRED PARAMETER</td></tr>
+<tr><td>Ending subscripts</td><td>List of integers separated by spaces</td><td>End of subscripts to be recomputed</td><td>REQUIRED PARAMETER</td></tr>
+<tr><td>STHOSVD directory</td><td>String</td><td>Directory location of STHOSVD output files</td><td>compressed</td></tr>
+<tr><td>STHOSVD file prefix</td><td>String</td><td>Base name of STHOSVD output files</td><td>sthosvd</td></tr>
+<tr><td>Output file list</td><td>String</td><td>File containing a list of filenames to output the reconstructed data into</td><td>rec.txt</td></tr>
+<tr><td>Print options</td><td>Boolean</td><td>If true, print the options described in this table</td><td>false</td></tr>
+</table>
+
+\subsubsection ex_sec2 Example
+
+First, I need to create a file containing the names of my desired tensor files.  The reconstructed tensor 
+will be written to these files.  I'll name my file rec.txt, and it will only contain one line since I
+don't want to split the output up by timesteps.
+
+<tt>reconstructed.mpi</tt>
+
+Next, I need to make a parameter file.
+
+<tt>
+Global dims = 500 500 500 11 400 \n
+Grid dims = 10 10 1 1 20 \n
+Beginning subscripts = 0 0 0 4 290 \n
+Ending subscripts = 499 499 499 4 299 \n
+</tt>
+
+I will only specify those parameters, since the other default values are okay.  Note that this time,
+instead of writing to the sthosvd directory, we will read the files in the sthosvd directory.  The first
+parameter defines the size of our original tensor.  The second defines the processor grid; note that it
+does not need to be the same as the processor grid used to generate the ST-HOSVD decomposition.  The
+beginning and ending subscripts define the parts of the tensor we reconstruct.  We will regenerate the
+entire x,y,z data for a single variable over the course of ten timesteps.  Note that these subscripts
+are inclusive.  This driver will compute an approximation of the original tensor using a series of
+tensor times matrix products.  These products will be performed in the order that minimizes the memory
+footprint of this program.
+
+\section ip_sec Common installation problems
+
+\subsection compiler_sec My compiler doesn't recognize std::numeric_limits<double>::lowest()!
+This function and several others in the code rely on C++11.  If your compiler does not support
+C++11, you will see error messages about unrecognized functions.  Please choose a different
+compiler.
+
+\subsection intel_sec My Intel compiler should be C++11 compliant, but I'm still getting those error messages!
+The Intel compiler relies on GNU gcc.  If the GNU gcc in the path is too old, the Intel compiler
+will not support C++11.  You must update your version of GNU or load an appropriate module. Please see 
+<a href=https://software.intel.com/en-us/articles/c11-support-in-intel-c-compiler> this link</a> 
+for more details.
+
+\section issues_sec Known issues
+
+This code does not work with OpenMPI 1.8.4 (which is no longer supported), and 2.0.1 (which is very new).
+It does work with 1.10.2.
+
+\section thread_sec A note about threads...
+Some sections of the code currently use <a href="http://openmp.org">OpenMP</a>.
+Please ensure that your environment variable <tt>OMP_NUM_THREADS</tt> is set
+to a reasonable value or it may result in significant slow-down.  The entire
+test suite should complete in about a minute; if it does not, there's a good
+chance your <tt>OMP_NUM_THREADS</tt> is too large.
+*/

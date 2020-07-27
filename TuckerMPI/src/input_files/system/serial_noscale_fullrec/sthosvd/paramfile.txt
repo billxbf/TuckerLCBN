@@ -1,0 +1,5 @@
+Automatic rank determination = true
+Perform STHOSVD = true
+Write STHOSVD result = true
+Print options = true
+Global dims = 50 50 50 11 40

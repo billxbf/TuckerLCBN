@@ -1,0 +1,6 @@
+Grid dims = 4 2 1 1 1
+Print options = true
+Beginning subscripts = 0 0 0 3 10
+Ending subscripts = 499 249 49 3 10
+STHOSVD directory = ../sthosvd/compressed
+

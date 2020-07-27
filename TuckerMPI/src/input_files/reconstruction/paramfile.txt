@@ -1,0 +1,7 @@
+Print options = true
+Grid dims = 1 2 2 3
+Beginning subscripts = 2 0 8 2
+Ending subscripts = 4 2 12 2
+STHOSVD directory = ../tests/input_files/reconstruction
+Output file list = ../tests/input_files/reconstruction/rec.txt
+Reconstruction order = 3 1 2 0

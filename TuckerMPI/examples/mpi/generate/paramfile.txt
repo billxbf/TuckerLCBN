@@ -1,0 +1,4 @@
+Grid dims = 2 2 2 2 1
+Global dims = 500 250 50 11 40
+Ranks = 40 20 30 9 25
+Print options = true;

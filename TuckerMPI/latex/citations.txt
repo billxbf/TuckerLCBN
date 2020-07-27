@@ -1,0 +1,12 @@
+@inproceedings{AuBaKo16,  
+author = {Woody Austin and Grey Ballard and Tamara G. Kolda}, 
+title = {Parallel Tensor Compression for Large-Scale Scientific Data}, 
+booktitle = {IPDPS'16: Proceedings of the 30th IEEE International Parallel and Distributed Processing Symposium},
+venue = {Chicago, IL},
+eventdate = {2016-05-23/2016-05-27}, 
+pages = {912--922}, 
+month = may, 
+year = {2016},
+doi = {10.1109/IPDPS.2016.67},
+eprint = {1510.06689},
+}

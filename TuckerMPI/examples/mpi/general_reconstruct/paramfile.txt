@@ -1,0 +1,4 @@
+Grid dims = 1 1 1 1 1
+Print options = true
+STHOSVD directory = ../sthosvd/compressed
+

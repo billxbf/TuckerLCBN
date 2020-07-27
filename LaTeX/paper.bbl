@@ -1,0 +1,19 @@
+\begin{thebibliography}{1}
+
+\bibitem{RF}
+Breiman.
+\newblock “random forest”.
+\newblock {\em Machine Learning}, 2001.
+
+\bibitem{GBDT}
+Jerome~H Friedman.
+\newblock “greedy function approximation: a gradient boosting machine”.
+\newblock {\em Annals of statistics}, page 1189–1232, 2001.
+
+\bibitem{SVM}
+John~C. Platt.
+\newblock “probabilistic outputs for support vector machines and comparisons
+  to regularized likelihood methods”.
+\newblock 1999.
+
+\end{thebibliography}

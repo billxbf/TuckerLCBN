@@ -1,0 +1,49 @@
+\relax 
+\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.1}Background}{1}}
+\citation{RF}
+\citation{GBDT}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.2}Preliminaries}{2}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.2.1}Singular Vector Decomposition}{2}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.2.2}Machine Learning Models}{2}}
+\@writefile{toc}{\contentsline {section}{\numberline {2}Data}{2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Activity Tensor}{2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Static Analysis Correlation Tensor}{3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Dynamic Analysis Correlation Tensor}{3}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.1}Windowed Activity Tensor}{3}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.2}Correlation Tensor}{3}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Subtensor corresponding to correlation of participant p and window n}}{4}}
+\@writefile{toc}{\contentsline {section}{\numberline {3}Algorithms}{4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Static Analysis Correlation Tensor}{4}}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces Static Analysis Correlation Tensor}}{4}}
+\newlabel{alg:static}{{1}{4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Dynamic Analysis Correlation Tensor}{4}}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {2}{\ignorespaces Left Singular Vector of Dynamic Analysis Correlation Tenso r(explicit)}}{5}}
+\newlabel{alg:explicit}{{2}{5}}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {3}{\ignorespaces Left Singular Vector of Dynamic Analysis Correlation Tensor(implicit)}}{6}}
+\newlabel{alg:implicit}{{3}{6}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Efficiency Comparison}{6}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Visualization of inner loop of Algorithm 3\hbox {} ($\M [\mathaccentV {hat}05E]{A_i}$ and $\M [\mathaccentV {hat}05E]{A_j} $ )}}{7}}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Time and space complexity compared between explicit and implicit methods.}}{7}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Speedup in time and storage reduction corresponding to number of areas. For the experimental data, implicit method costs less time than explicit method as $A > 327$ and always requires less memory than explicit method. The red line corresponds to value 1 to indicate when implicit method outperforms explicit method. }}{7}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Speedup experiment on synthetic data, the speedup is roughly linear and exceeding 1 at $300 < A < 400$, a result corresponding with the theoretical analysis. The red line corresponds to value 1 to indicate when implicit method outperforms explicit method. The shadowed area is the range of 10 experimental speedups.}}{8}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Experiment}{8}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces GFLOPS comparison of the same experiment on synthetic data}}{9}}
+\newlabel{fig:GFLOPS}{{5}{9}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Voxel Based vs. Regional Based}{9}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Singular values and vectors}{9}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Singular values computed from two techniques.}}{9}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Singular vectors corresponding to the 5 biggest singular values computed from two techniques.}}{10}}
+\citation{SVM}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Individual classification accuracy trained on regional and voxel data using Random Forest, Gradient Boosting Decision Trees and K-Nearest Neighbors classifiers.}}{11}}
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Farm/NonFarm Workers classification accuracy trained on regional and voxel data using Random Forest, Gradient Boosting Decision Trees and K-Nearest Neighbors classifiers.}}{11}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Individual Classification}{11}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Farm/Nonfarm Worker Classification}{11}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Clustering}{11}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Farm/Non-farm worker classification accuracy}}{12}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Conclusion}{12}}
+\bibstyle{unsrt}
+\bibdata{paper.bib}
+\bibcite{RF}{1}
+\bibcite{GBDT}{2}
+\bibcite{SVM}{3}

@@ -1,0 +1,4 @@
+Print options = true
+Beginning subscripts = 0 0 0 3 10
+Ending subscripts = 49 49 49 3 10
+STHOSVD directory = ../sthosvd/compressed

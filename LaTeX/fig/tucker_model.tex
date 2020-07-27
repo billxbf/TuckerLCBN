@@ -1,0 +1,69 @@
+%!TEX root = ../paper.tex
+
+\begin{tikzpicture}[scale=0.5,namenode/.style={scale=.75}]
+
+%\draw[help lines] (0,0) grid (20,6);
+
+% Set relative dimensions of X
+\def\ix{4} %<- Second dimension of tensor
+\def\iy{3} %<- First dimension of tensor
+\def\iz{2.5} %<- Third dimension of tensor
+
+% Set relative dimensions of G
+\def\corescale{1.75}
+\def\rx{\ix/\corescale}
+\def\ry{\iy/\corescale}
+\def\rz{\iz/\corescale}
+
+%\draw[help lines,step=.2] (0,0) grid (17,5);
+
+% X Tensor
+\coordinate (XFrontLowerLeft) at (0,0);
+\draw (XFrontLowerLeft) rectangle ++ (\ix,\iy); % Front
+\begin{scope}[shift={(XFrontLowerLeft)},canvas is zx plane at y=\iy,rotate=90]
+  \draw (0,0) rectangle ++ (\ix,\iz); % Top
+\end{scope}
+\begin{scope}[shift={(XFrontLowerLeft)},canvas is zy plane at x=\ix,rotate=90]
+  \draw (0,0) rectangle ++ (\iy,\iz); % Right
+\end{scope}
+\node[namenode] at ($(XFrontLowerLeft) + (0.5*\ix, 0.5*\iy)$)  {${\cal X}$};
+
+% \approx
+\coordinate (ApproxCtr) at ($(XFrontLowerLeft) + (\ix+0.4*\iz,0.75*\iy) + (0.75,0)$);
+\node[namenode] at (ApproxCtr) {$\approx$};
+
+% U1
+\coordinate (U1LowerLeft) at ($(ApproxCtr) - (0,0.75*\iy) + (0.75,0)$);
+\draw (U1LowerLeft) rectangle ++ (\ry,\iy);
+\node[namenode] at ($(U1LowerLeft)+(0.5*\ry, 0.5*\iy)$)  {$\mathbf{U}^{(1)}$};
+
+% G
+\coordinate (GFrontLowerLeft) at ($(U1LowerLeft) + (\ry+0.5,1)$);
+\draw (GFrontLowerLeft) rectangle ++ (\rx,\ry);
+\begin{scope}[shift={(GFrontLowerLeft)},canvas is zx plane at y=\ry,rotate=90]
+  \draw (0,0) rectangle ++ (\rx,\rz);
+\end{scope}
+\begin{scope}[shift={(GFrontLowerLeft)},canvas is zy plane at x=\rx,rotate=90]
+  \draw (0,0) rectangle ++ (\ry,\rz);
+\end{scope}
+\node[namenode] at ($(GFrontLowerLeft)+(0.5*\rx,.5*\ry)$)  {${\cal G}$};
+
+%U2
+\coordinate (U2LowerLeft) at ($(GFrontLowerLeft) + (\rx+\rz*0.4+0.5,0.5)$);
+\draw (U2LowerLeft) rectangle ++ (\ix,\rx); % Right
+\node[namenode] at ($(U2LowerLeft)+(0.5*\ix,0.5*\rx)$)  {$\mathbf{U}^{(2)}$};
+
+%U3
+\coordinate (U3LowerLeft) at ($(GFrontLowerLeft) + (0.5,\ry+.8)$);
+\begin{scope}[shift={(U3LowerLeft)},canvas is zx plane at y=0,rotate=90]
+  \draw (0,0) rectangle ++ (\rz,\iz); % Top
+\end{scope}
+\node[namenode] at ($(U3LowerLeft)+(1.2,0.5)$) {$\mathbf{U}^{(3)}$};
+
+\end{tikzpicture}
+
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "../paper"
+%%% End: 

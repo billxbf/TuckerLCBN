@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="New"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/Users/billxu/Desktop/CorrMat/New/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/anaconda3/bin/make -j12 -f &quot;/Users/billxu/Desktop/CorrMat/New/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/anaconda3/bin/make -j12 -f &quot;/Users/billxu/Desktop/CorrMat/New/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/anaconda3/bin/make -j12 -f &quot;/Users/billxu/Desktop/CorrMat/New/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/anaconda3/bin/make -j12 -f &quot;/Users/billxu/Desktop/CorrMat/New/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/Users/billxu/Desktop/CorrMat/New/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/anaconda3/bin/make -j12 -f &quot;/Users/billxu/Desktop/CorrMat/New/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/anaconda3/bin/make -j12 -f &quot;/Users/billxu/Desktop/CorrMat/New/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/anaconda3/bin/make -j12 -f &quot;/Users/billxu/Desktop/CorrMat/New/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/anaconda3/bin/make -j12 -f &quot;/Users/billxu/Desktop/CorrMat/New/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/Users/billxu/Desktop/CorrMat/New/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/anaconda3/bin/make -j12 -f &quot;/Users/billxu/Desktop/CorrMat/New/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/anaconda3/bin/make -j12 -f &quot;/Users/billxu/Desktop/CorrMat/New/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/anaconda3/bin/make -j12 -f &quot;/Users/billxu/Desktop/CorrMat/New/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/anaconda3/bin/make -j12 -f &quot;/Users/billxu/Desktop/CorrMat/New/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="New">
+				<Option output="/Users/billxu/Desktop/CorrMat/New/cmake-build-debug/New" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/billxu/Desktop/CorrMat/New/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/10.0.1/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/anaconda3/bin/make -j12 -f &quot;/Users/billxu/Desktop/CorrMat/New/cmake-build-debug/Makefile&quot;  VERBOSE=1 New"/>
+					<CompileFile command="/anaconda3/bin/make -j12 -f &quot;/Users/billxu/Desktop/CorrMat/New/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/anaconda3/bin/make -j12 -f &quot;/Users/billxu/Desktop/CorrMat/New/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/anaconda3/bin/make -j12 -f &quot;/Users/billxu/Desktop/CorrMat/New/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="New/fast">
+				<Option output="/Users/billxu/Desktop/CorrMat/New/cmake-build-debug/New" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/billxu/Desktop/CorrMat/New/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/10.0.1/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/anaconda3/bin/make -j12 -f &quot;/Users/billxu/Desktop/CorrMat/New/cmake-build-debug/Makefile&quot;  VERBOSE=1 New/fast"/>
+					<CompileFile command="/anaconda3/bin/make -j12 -f &quot;/Users/billxu/Desktop/CorrMat/New/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/anaconda3/bin/make -j12 -f &quot;/Users/billxu/Desktop/CorrMat/New/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/anaconda3/bin/make -j12 -f &quot;/Users/billxu/Desktop/CorrMat/New/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/Users/billxu/Desktop/CorrMat/New/main.c">
+			<Option target="New"/>
+		</Unit>
+		<Unit filename="/Users/billxu/Desktop/CorrMat/New/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
